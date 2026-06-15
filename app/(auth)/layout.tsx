@@ -19,8 +19,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="mt-6 flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-white/20" />
             <div>
-              <p className="text-sm font-medium text-white">Sarah Johnson</p>
-              <p className="text-sm text-indigo-200">Freelance Designer</p>
+              <p className="text-sm font-medium text-white">Ankit Baage</p>
+              <p className="text-sm text-indigo-200">Full Stack Developer</p>
             </div>
           </div>
         </div>
