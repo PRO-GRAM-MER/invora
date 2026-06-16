@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
-import { LayoutDashboard, Users, FileText, LogOut, X, Zap, Settings } from "lucide-react";
+import { LayoutDashboard, Users, FileText, X, Zap } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -11,23 +10,15 @@ const navItems = [
   { href: "/invoices", label: "Invoices", icon: FileText },
 ];
 
-const bottomNavItems = [
-  { href: "/settings", label: "Settings", icon: Settings },
-];
-
 type SidebarContentProps = {
   pathname: string;
   onClose: () => void;
-  userName: string;
-  userEmail: string;
   showCloseButton?: boolean;
 };
 
 function SidebarContent({
   pathname,
   onClose,
-  userName,
-  userEmail,
   showCloseButton,
 }: SidebarContentProps) {
   return (
@@ -83,52 +74,6 @@ function SidebarContent({
         })}
       </nav>
 
-      {/* Bottom nav (Settings) */}
-      <div className="border-t border-gray-100 px-3 pt-3">
-        {bottomNavItems.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname.startsWith(`${href}/`);
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onClose}
-              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
-                active
-                  ? "bg-indigo-50 text-indigo-700 shadow-sm"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              }`}
-            >
-              <Icon
-                className={`h-5 w-5 flex-shrink-0 transition-colors duration-150 ${
-                  active ? "text-indigo-600" : "text-gray-400 group-hover:text-gray-600"
-                }`}
-              />
-              {label}
-              {active && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-600" />}
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* User + Logout */}
-      <div className="p-3">
-        <div className="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5">
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
-            {userName.charAt(0).toUpperCase()}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium text-gray-900">{userName}</p>
-            <p className="truncate text-xs text-gray-500">{userEmail}</p>
-          </div>
-        </div>
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition-all duration-150 hover:bg-red-50 hover:text-red-600"
-        >
-          <LogOut className="h-5 w-5 flex-shrink-0 text-gray-400 transition-colors duration-150 group-hover:text-red-400" />
-          Sign out
-        </button>
-      </div>
     </div>
   );
 }
@@ -136,11 +81,9 @@ function SidebarContent({
 type Props = {
   open: boolean;
   onClose: () => void;
-  userName: string;
-  userEmail: string;
 };
 
-export function Sidebar({ open, onClose, userName, userEmail }: Props) {
+export function Sidebar({ open, onClose }: Props) {
   const pathname = usePathname();
 
   return (
@@ -150,8 +93,6 @@ export function Sidebar({ open, onClose, userName, userEmail }: Props) {
         <SidebarContent
           pathname={pathname}
           onClose={onClose}
-          userName={userName}
-          userEmail={userEmail}
         />
       </aside>
 
@@ -182,8 +123,6 @@ export function Sidebar({ open, onClose, userName, userEmail }: Props) {
           <SidebarContent
             pathname={pathname}
             onClose={onClose}
-            userName={userName}
-            userEmail={userEmail}
             showCloseButton
           />
         </aside>
